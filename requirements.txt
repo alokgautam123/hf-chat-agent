@@ -1,0 +1,8 @@
+openai
+requests
+ddgs
+
+pypdf
+chromadb
+sentence-transformers
+langchain-text-splitters
