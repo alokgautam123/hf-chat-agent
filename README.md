@@ -164,7 +164,11 @@ Multi-Tool Agent with Web Search
 python multitool_agent_calc_weather_search.py
 ```
 
-'''bash
+Basic RAG Example
+
+The example indexes `docs/RFC791.pdf` into ChromaDB and allows you to ask questions about the document using semantic search and a Large Language Model.
+
+```bash
 cd rag
 
 # Index the PDF into ChromaDB
@@ -172,7 +176,7 @@ python ingest.py
 
 # Ask questions about the indexed document
 python chat.py
-'''
+```
 ---
 
 # Learning Journey
