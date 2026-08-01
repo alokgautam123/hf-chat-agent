@@ -4,7 +4,7 @@ A step-by-step AI Agent project built while learning modern Large Language Model
 
 The goal of this repository is to understand how AI agents are built from first principles by implementing one concept at a time instead of relying on high-level frameworks.
 
-Each script introduces a new capability, gradually evolving from a simple chatbot into a multi-tool AI agent capable of performing calculations, weather lookup, web search.
+Each script introduces a new capability, gradually evolving from a simple chatbot into a multi-tool AI agent and finally a basic Retrieval-Augmented Generation (RAG) application capable of answering questions from custom documents.
 
 This repository is part of my hands-on journey to understand how modern AI agents work by implementing each capability from scratch before moving to more advanced topics such as Retrieval-Augmented Generation (RAG).
 
@@ -18,6 +18,8 @@ This repository is part of my hands-on journey to understand how modern AI agent
 * Weather tool using Open-Meteo APIs
 * Web Search tool
 * Multi-tool AI Agent
+* Basic Retrieval-Augmented Generation (RAG)
+*  Semantic Search using ChromaDB and Sentence Transformers
 
 ---
 
@@ -46,6 +48,9 @@ multitool_agent_calc_weather_search.py
 
 weather_test.py
     Weather API testing
+
+rag/
+    Basic Retrieval-Augmented Generation (RAG)
 
 ```
 
@@ -107,6 +112,20 @@ set HF_TOKEN=your_huggingface_token
 
 ---
 
+## Tested Environment
+
+This project has been tested with:
+
+- Python 3.11.15
+- OpenAI Python SDK 2.52.0
+- PyTorch 2.2.2
+- Transformers 4.57.6
+- Sentence Transformers 5.1.0
+- NumPy 1.26.4
+
+---
+
+
 # Running the Examples
 
 Basic Chat
@@ -144,6 +163,11 @@ Multi-Tool Agent with Web Search
 ```bash
 python multitool_agent_calc_weather_search.py
 ```
+
+'''bash
+python ingest.py
+python chat.py
+'''
 ---
 
 # Learning Journey
@@ -158,6 +182,7 @@ The progression followed is:
 4. Weather Agent 
 5. Multi-Tool Agent
 6. Multi-Tool Agent including Web Search Tool
+7. Basic Retrieval-Augmented Generation (RAG)
 
 Each step introduces one new concept while keeping the code easy to understand.
 
