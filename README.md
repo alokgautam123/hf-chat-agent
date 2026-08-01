@@ -165,7 +165,12 @@ python multitool_agent_calc_weather_search.py
 ```
 
 '''bash
+cd rag
+
+# Index the PDF into ChromaDB
 python ingest.py
+
+# Ask questions about the indexed document
 python chat.py
 '''
 ---
