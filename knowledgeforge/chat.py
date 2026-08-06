@@ -7,6 +7,7 @@ from config import TOP_K_RESULTS
 
 from embeddings import create_embeddings
 from vectordb import search
+from pprint import pprint
 
 client = OpenAI(
     base_url="https://router.huggingface.co/v1",
@@ -29,23 +30,64 @@ results = search(
     top_k=TOP_K_RESULTS,
 )
 
-contexts = results["documents"][0]
+#print("\nRetrieved Results:\n")
+#pprint(results)
 
-context = "\n\n".join(contexts)
+documents = results["documents"][0]
+metadata = results["metadatas"][0]
+distances = results["distances"][0]
+chunk_ids = results["ids"][0]
+
+context_parts = []
+
+for doc, meta, distance, chunk_id in zip(
+    documents,
+    metadata,
+    distances,
+    chunk_ids
+):
+    context_parts.append(
+        f"""
+Source:
+{meta.get('source')}
+
+Page:
+{meta.get('page', 'N/A')}
+
+Chunk:
+{chunk_id}
+
+Content:
+{doc}
+
+Similarity:
+{distance}
+"""
+    )
+
+context = "\n\n".join(context_parts)
 
 prompt = f"""
 You are an expert assistant.
 
-Use ONLY the context below.
+Answer using ONLY the provided context.
 
-If the answer is not present, reply:
+For every answer, include citations in this format:
+
+Sources:
+- <filename>
+- Page <number>
+
+If information is not present, reply:
 
 I couldn't find that information in the provided documents.
 
 Context:
+
 {context}
 
 Question:
+
 {question}
 
 Answer:

@@ -6,15 +6,20 @@ from config import DOCS_DIR
 def read_pdf_file(file_path):
     reader = PdfReader(file_path)
 
-    text = ""
+    pages = []
 
-    for page in reader.pages:
+    for page_number, page in enumerate(reader.pages, start=1):
         page_text = page.extract_text()
 
-        if page_text:
-            text += page_text + "\n"
+        if page_text and page_text.strip():
+            pages.append(
+                {
+                    "text": page_text,
+                    "page": page_number
+                }
+            )
 
-    return text
+    return pages
 
 def read_text_file(file_path):
     with open(file_path, "r", encoding="utf-8") as file:
@@ -45,17 +50,19 @@ def load_documents():
                 }
             )
         elif file.suffix == ".pdf":
-            text = read_pdf_file(file)
+            pages = read_pdf_file(file)
 
-            documents.append(
-                {
-                    "text": text,
-                    "metadata": {
-                        "source": file.name,
-                        "type": "pdf"
+            for page in pages:
+                documents.append(
+                    {
+                        "text": page["text"],
+                        "metadata": {
+                            "source": file.name,
+                            "type": "pdf",
+                            "page": page["page"]
+                        }
                     }
-                }
-            )
+                )
 
     return documents
 
