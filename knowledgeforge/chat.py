@@ -109,5 +109,11 @@ response = client.chat.completions.create(
     ],
 )
 
+answer = response.choices[0].message.content.strip()
+
 print("\nAnswer:\n")
-print(response.choices[0].message.content)
+
+if answer == "INSUFFICIENT_CONTEXT":
+    print("I couldn't find that information in the provided documents.")
+else:
+    print(answer)
