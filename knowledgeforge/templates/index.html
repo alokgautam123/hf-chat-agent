@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>KnowledgeForge</title>
+        <link rel="stylesheet" href="{{ url_for('static', path='/styles.css') }}">
+    </head>
+    <body>
+        <main class="page-shell">
+            <header class="page-header">
+                <p class="eyebrow">Personal knowledge base</p>
+                <h1>KnowledgeForge</h1>
+                <p class="intro">Your indexed knowledge, ready to explore.</p>
+            </header>
+
+            {% if success %}
+                <p class="message message-success" role="status">{{ success }}</p>
+            {% endif %}
+
+            {% if error %}
+                <p class="message message-error" role="alert">{{ error }}</p>
+            {% endif %}
+
+            <section class="document-panel qa-panel" aria-labelledby="question-heading">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">Ask your knowledge</p>
+                        <h2 id="question-heading">Ask a question</h2>
+                    </div>
+                </div>
+
+                <form class="question-form" action="/ask" method="post">
+                    <label for="question">Question</label>
+                    <textarea id="question" name="question" rows="3" required>{{ question }}</textarea>
+                    <button type="submit">Ask KnowledgeForge</button>
+                </form>
+
+                {% if qa_result %}
+                    <article class="answer" aria-labelledby="answer-heading">
+                        <p class="eyebrow">Response</p>
+                        <h3 id="answer-heading">Answer</h3>
+                        <p class="answer-text">{{ qa_result.answer }}</p>
+
+                        {% if qa_result.answered and qa_result.citations %}
+                            <div class="citations">
+                                <h4>Sources</h4>
+                                <ul>
+                                    {% for citation in qa_result.citations %}
+                                        <li>
+                                            {{ citation.source }}{% if citation.page %}, page {{ citation.page }}{% endif %}
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                    </article>
+                {% endif %}
+            </section>
+
+            <section class="document-panel upload-panel" aria-labelledby="upload-heading">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">Add knowledge</p>
+                        <h2 id="upload-heading">Upload a document</h2>
+                    </div>
+                </div>
+
+                <form class="upload-form" action="/upload" method="post" enctype="multipart/form-data">
+                    <label for="document">PDF, Markdown, or text</label>
+                    <div class="upload-controls">
+                        <input id="document" name="file" type="file" accept=".pdf,.md,.txt" required>
+                        <button type="submit">Upload and index</button>
+                    </div>
+                </form>
+            </section>
+
+            <section class="document-panel" aria-labelledby="documents-heading">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">Library</p>
+                        <h2 id="documents-heading">Indexed documents</h2>
+                    </div>
+                    <span class="document-count">
+                        {{ documents | length }} {{ "document" if documents | length == 1 else "documents" }}
+                    </span>
+                </div>
+
+                {% if documents %}
+                    <ul class="document-list">
+                        {% for document in documents %}
+                            <li>
+                                <span class="file-mark" aria-hidden="true">KF</span>
+                                <span class="document-name">{{ document.source }}</span>
+                                <form action="/documents/delete" method="post">
+                                    <input type="hidden" name="source" value="{{ document.source }}">
+                                    <button class="delete-button" type="submit">Delete</button>
+                                </form>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="empty-state">No documents have been indexed yet.</p>
+                {% endif %}
+            </section>
+        </main>
+    </body>
+</html>

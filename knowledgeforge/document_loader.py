@@ -26,6 +26,40 @@ def read_text_file(file_path):
         return file.read()
 
 
+def load_document(file_path):
+    file = Path(file_path)
+
+    if file.suffix in [".md", ".txt"]:
+        text = read_text_file(file)
+
+        return [
+            {
+                "text": text,
+                "metadata": {
+                    "source": file.name,
+                    "type": file.suffix.replace(".", "")
+                }
+            }
+        ]
+
+    if file.suffix == ".pdf":
+        pages = read_pdf_file(file)
+
+        return [
+            {
+                "text": page["text"],
+                "metadata": {
+                    "source": file.name,
+                    "type": "pdf",
+                    "page": page["page"]
+                }
+            }
+            for page in pages
+        ]
+
+    return []
+
+
 def load_documents():
     documents = []
 
@@ -36,33 +70,7 @@ def load_documents():
             continue
 
         print(f"Loading file: {file.name}")
-
-        if file.suffix in [".md", ".txt"]:
-            text = read_text_file(file)
-
-            documents.append(
-                {
-                    "text": text,
-                    "metadata": {
-                        "source": file.name,
-                        "type": file.suffix.replace(".", "")
-                    }
-                }
-            )
-        elif file.suffix == ".pdf":
-            pages = read_pdf_file(file)
-
-            for page in pages:
-                documents.append(
-                    {
-                        "text": page["text"],
-                        "metadata": {
-                            "source": file.name,
-                            "type": "pdf",
-                            "page": page["page"]
-                        }
-                    }
-                )
+        documents.extend(load_document(file))
 
     return documents
 

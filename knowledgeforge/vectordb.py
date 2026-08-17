@@ -40,6 +40,20 @@ def search(query_embedding, top_k):
     )
 
 
+def delete_by_source(source):
+    collection = get_collection()
+    matching_entries = collection.get(
+        where={"source": source},
+        include=[],
+    )
+
+    collection.delete(
+        where={"source": source},
+    )
+
+    return len(matching_entries["ids"])
+
+
 def document_count():
     collection = get_collection()
     return collection.count()
