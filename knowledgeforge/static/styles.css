@@ -18,6 +18,80 @@ body {
         #f3f5ef;
 }
 
+.auth-shell {
+    display: grid;
+    width: min(460px, calc(100% - 2rem));
+    min-height: 100vh;
+    margin: 0 auto;
+    place-items: center;
+    padding: 3rem 0;
+}
+
+.auth-panel {
+    width: 100%;
+}
+
+.auth-panel h1 {
+    font-size: clamp(2.5rem, 10vw, 3.75rem);
+}
+
+.auth-form {
+    display: grid;
+    gap: 0.7rem;
+    margin-top: 1.5rem;
+}
+
+.auth-form label {
+    color: #53645a;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.auth-form input:not([type="hidden"]) {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #cbd4cc;
+    border-radius: 0.6rem;
+    color: inherit;
+    background: #fff;
+    font: inherit;
+}
+
+.auth-form button {
+    margin-top: 0.35rem;
+}
+
+.auth-switch {
+    margin: 1.25rem 0 0;
+    color: #607068;
+    font-size: 0.9rem;
+}
+
+.auth-switch a {
+    color: #315e48;
+    font-weight: 700;
+}
+
+.account-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+    color: #607068;
+    font-size: 0.9rem;
+}
+
+.secondary-button {
+    padding: 0.45rem 0.7rem;
+    color: #315e48;
+    background: #dfe9e1;
+    font-size: 0.82rem;
+}
+
+.secondary-button:hover {
+    background: #d2e1d5;
+}
+
 .page-shell {
     width: min(760px, calc(100% - 2rem));
     margin: 0 auto;

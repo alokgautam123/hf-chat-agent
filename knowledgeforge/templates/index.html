@@ -12,6 +12,13 @@
                 <p class="eyebrow">Personal knowledge base</p>
                 <h1>KnowledgeForge</h1>
                 <p class="intro">Your indexed knowledge, ready to explore.</p>
+                <div class="account-bar">
+                    <span>{{ current_user.email }}</span>
+                    <form action="/logout" method="post">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                        <button class="secondary-button" type="submit">Log out</button>
+                    </form>
+                </div>
             </header>
 
             {% if success %}
@@ -31,6 +38,7 @@
                 </div>
 
                 <form class="question-form" action="/ask" method="post">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
                     <label for="question">Question</label>
                     <textarea id="question" name="question" rows="3" required>{{ question }}</textarea>
                     <button type="submit">Ask KnowledgeForge</button>
@@ -67,6 +75,7 @@
                 </div>
 
                 <form class="upload-form" action="/upload" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
                     <label for="document">PDF, Markdown, or text</label>
                     <div class="upload-controls">
                         <input id="document" name="file" type="file" accept=".pdf,.md,.txt" required>
@@ -93,6 +102,7 @@
                                 <span class="file-mark" aria-hidden="true">KF</span>
                                 <span class="document-name">{{ document.source }}</span>
                                 <form action="/documents/delete" method="post">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
                                     <input type="hidden" name="source" value="{{ document.source }}">
                                     <button class="delete-button" type="submit">Delete</button>
                                 </form>

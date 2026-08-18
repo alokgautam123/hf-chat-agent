@@ -26,7 +26,7 @@ def reciprocal_rank(results, expected_source, expected_pages):
     return 0.0
 
 
-def evaluate():
+def evaluate(user_id):
     vector_hits = {1: 0, 3: 0, 5: 0}
     reranked_hits = {1: 0, 3: 0, 5: 0}
 
@@ -50,6 +50,7 @@ def evaluate():
         results = search(
             query_embedding=query_embedding,
             top_k=TOP_K,
+            user_id=user_id,
         )
 
         documents = results["documents"][0]
@@ -140,4 +141,4 @@ def evaluate():
 
 
 if __name__ == "__main__":
-    evaluate()
+    evaluate("evaluation")

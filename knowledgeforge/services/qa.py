@@ -83,7 +83,7 @@ def _create_citations(answer, results):
     return citations
 
 
-def answer_question(question):
+def answer_question(question, user_id):
     """Answer a question using the indexed KnowledgeForge documents."""
     query = [
         {
@@ -97,6 +97,7 @@ def answer_question(question):
     results = search(
         query_embedding=query_embedding,
         top_k=TOP_K_RESULTS,
+        user_id=user_id,
     )
 
     documents = results["documents"][0]

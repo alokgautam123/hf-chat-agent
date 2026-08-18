@@ -31,29 +31,40 @@ def index_documents(ids, documents, embeddings, metadatas):
         metadatas=metadatas
     )
 
-def search(query_embedding, top_k):
+def search(query_embedding, top_k, user_id):
     collection = get_collection()
 
     return collection.query(
         query_embeddings=query_embedding.tolist(),
-        n_results=top_k
+        n_results=top_k,
+        where={"user_id": user_id},
     )
 
 
-def delete_by_source(source):
+def delete_by_source(source, user_id):
     collection = get_collection()
+    ownership_filter = {
+        "$and": [
+            {"user_id": user_id},
+            {"source": source},
+        ]
+    }
     matching_entries = collection.get(
-        where={"source": source},
+        where=ownership_filter,
         include=[],
     )
 
     collection.delete(
-        where={"source": source},
+        where=ownership_filter,
     )
 
     return len(matching_entries["ids"])
 
 
-def document_count():
+def document_count(user_id):
     collection = get_collection()
-    return collection.count()
+    matching_entries = collection.get(
+        where={"user_id": user_id},
+        include=[],
+    )
+    return len(matching_entries["ids"])
